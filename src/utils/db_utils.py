@@ -18,25 +18,36 @@ def connect_db():
         return None
 
 def execute_query(query, params=None):
-    """Execute a SQL query (SELECT, INSERT, UPDATE, DELETE)."""
-    conn = connect_db()
-    if conn is None:
+    """Executes INSERT, UPDATE, DELETE queries (non-SELECT queries)."""
+    connection = connect_db()  # Fixed function name
+    if not connection:
+        return
+    
+    try:
+        cursor = connection.cursor()
+        cursor.execute(query, params)
+        connection.commit()  # Commit only for non-SELECT queries
+        print("✅ Query executed successfully!")
+    except mysql.connector.Error as err:
+        print(f"❌ Database query error: {err}")
+    finally:
+        cursor.close()
+        connection.close()
+
+def fetch_query(query, params=None):
+    """Fetch results for SELECT queries."""
+    connection = connect_db()  # Fixed function name
+    if not connection:
         return None
 
     try:
-        cursor = conn.cursor(dictionary=True)  
-        cursor.execute(query, params or ())
-        if query.strip().lower().startswith("select"):
-            result = cursor.fetchall()
-        else:
-            conn.commit()
-            result = cursor.rowcount  # Number of rows affected
-
-        cursor.close()
-        conn.close()
-        return result
-    except Error as e:
-        print(f"❌ Database query error: {e}")
+        cursor = connection.cursor(dictionary=True)  # Returns result as a dictionary
+        cursor.execute(query, params)
+        result = cursor.fetchall()
+        return result  # Return the fetched data
+    except mysql.connector.Error as err:
+        print(f"❌ Database query error: {err}")
         return None
-
-
+    finally:
+        cursor.close()
+        connection.close()

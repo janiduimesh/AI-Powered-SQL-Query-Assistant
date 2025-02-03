@@ -1,0 +1,28 @@
+# Virtual environment
+env/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment variables
+.env/
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# Database files
+*.db
+*.sqlite3
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Distribution and build files
+dist/
+build/
+*.egg-info/

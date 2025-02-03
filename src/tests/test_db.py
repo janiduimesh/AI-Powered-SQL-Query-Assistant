@@ -2,17 +2,18 @@ import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from src.utils.db_utils import execute_query
+from src.utils.db_utils import execute_query,fetch_query
 
-# Test SELECT query
-print("🔍 Fetching users from DB:")
-print(execute_query("SELECT * FROM employees"))
+# Fetch Employees
+print("🔍 Fetching employees from DB:")
+employees = fetch_query("SELECT * FROM employees")
+print(employees)  # Now correctly handles SELECT queries
 
-# Test INSERT query
+# Insert Test Employee
 print("📝 Inserting test employee:")
-execute_query("INSERT INTO employees (name, department, salary) VALUES (%s, %s, %s)", 
-              ("John Doe", "Engineering", 75000))
+execute_query("INSERT INTO employees (name, department, salary) VALUES (%s, %s, %s)", ("John Doe", "Engineering", 70000))
 
-# Test SELECT after insert
-print("🔍 Fetching users after insert:")
-print(execute_query("SELECT * FROM employees"))
+# Fetch Again After Insert
+print("🔍 Fetching employees after insert:")
+employees = fetch_query("SELECT * FROM employees")
+print(employees)
