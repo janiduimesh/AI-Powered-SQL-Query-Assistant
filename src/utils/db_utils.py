@@ -19,14 +19,14 @@ def connect_db():
 
 def execute_query(query, params=None):
     """Executes INSERT, UPDATE, DELETE queries (non-SELECT queries)."""
-    connection = connect_db()  # Fixed function name
+    connection = connect_db() 
     if not connection:
         return
     
     try:
         cursor = connection.cursor()
         cursor.execute(query, params)
-        connection.commit()  # Commit only for non-SELECT queries
+        connection.commit()  
         print("✅ Query executed successfully!")
     except mysql.connector.Error as err:
         print(f"❌ Database query error: {err}")
@@ -36,15 +36,15 @@ def execute_query(query, params=None):
 
 def fetch_query(query, params=None):
     """Fetch results for SELECT queries."""
-    connection = connect_db()  # Fixed function name
+    connection = connect_db()  
     if not connection:
         return None
 
     try:
-        cursor = connection.cursor(dictionary=True)  # Returns result as a dictionary
+        cursor = connection.cursor(dictionary=True)  
         cursor.execute(query, params)
         result = cursor.fetchall()
-        return result  # Return the fetched data
+        return result  
     except mysql.connector.Error as err:
         print(f"❌ Database query error: {err}")
         return None
