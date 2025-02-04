@@ -1,6 +1,6 @@
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
-from langchain_groq import ChatGroq  # Use LangChain's ChatGroq integration
+from langchain_groq import ChatGroq  
 from dotenv import load_dotenv
 import os
 import logging
@@ -43,7 +43,7 @@ def natural_language_to_sql(question):
         sql_query = sql_query_response.content
 
         # Extract any valid SQL query (SELECT, INSERT, UPDATE, DELETE, etc.)
-        match = re.search(r"(SELECT .*?;|INSERT INTO .*?;|UPDATE .*?;|DELETE .*?;)", sql_query, re.DOTALL | re.IGNORECASE)
+        match = re.search(r"(SELECT .*?;|INSERT INTO .*?;|UPDATE .*?;|DELETE .*?;|ALTER TABLE .*?;)", sql_query, re.DOTALL | re.IGNORECASE)
         
         if match:
             ans = match.group(1).strip()

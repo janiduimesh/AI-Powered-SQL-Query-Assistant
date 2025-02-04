@@ -152,7 +152,7 @@ if st.button("Execute"):
                 else:
                     st.warning("⚠️ No data found.")
 
-            elif query_type in ["INSERT", "UPDATE", "DELETE"]:
+            elif query_type in ["INSERT", "UPDATE", "DELETE","ALTER"]:
                 result = execute_query(sql_query)
                 logger.info(f"Query Execution Result: {result}")  
                 if result["status"] == "success":
