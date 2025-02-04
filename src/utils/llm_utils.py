@@ -23,29 +23,31 @@ def natural_language_to_sql(question):
     
         prompt = PromptTemplate(
             input_variables=["question"],
-            template="Convert the following natural language question into an SQL query: {question}"
+            template=(
+                "Convert the following natural language question into a direct SQL query, "
+                "without using INFORMATION_SCHEMA or checking table structure. "
+                "The SQL query must be executable as-is: {question}"
+            )
         )
+
 
         chain = (
             RunnablePassthrough()  
             | prompt  
             | llm  
         )
-
-        
+   
         sql_query_response = chain.invoke({"question": question})
         logger.info(f"Generated SQL Query: {sql_query_response}")
 
-        
         sql_query = sql_query_response.content
-        
-        match = re.search(r"(SELECT.*?;)", sql_query, re.DOTALL)
-        logger.info(f"New SQL Query: {match}")
+
+        # Extract any valid SQL query (SELECT, INSERT, UPDATE, DELETE, etc.)
+        match = re.search(r"(SELECT .*?;|INSERT INTO .*?;|UPDATE .*?;|DELETE .*?;)", sql_query, re.DOTALL | re.IGNORECASE)
         
         if match:
-            ans= match.group(1).strip()
-            logger.info(f"final SQL Query: {ans}")
-
+            ans = match.group(1).strip()
+            logger.info(f"Final SQL Query: {ans}")
             return ans
         else:
             logger.error("No valid SQL query found in the response.")

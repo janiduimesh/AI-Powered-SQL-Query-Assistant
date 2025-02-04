@@ -28,6 +28,10 @@ def execute_query(query, params=None):
         cursor.execute(query, params)
         connection.commit()  
         print("✅ Query executed successfully!")
+        return {
+            "status": "success",
+            "affected_rows": cursor.rowcount  
+        }
     except mysql.connector.Error as err:
         print(f"❌ Database query error: {err}")
     finally:
