@@ -73,10 +73,6 @@ An AI-based application that converts natural language queries into SQL statemen
   SELECT department, AVG(salary) FROM employees GROUP BY department HAVING AVG(salary) > 50000;
   ```
 
-## 🔗 Important Links
-- **GitHub Repository**: [Your GitHub Repo](https://github.com/your-username/AI-SQL-Generator)
-- **Project Demo**: [Live Streamlit App](https://your-app-url.streamlit.app)
-
 ## 🤝 Contribution
 Feel free to fork this repo, create a new branch, and submit a pull request! 🙌
 
